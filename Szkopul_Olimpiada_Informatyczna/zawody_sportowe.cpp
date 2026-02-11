@@ -29,7 +29,7 @@ int poz_1[max_n];
 int poz_2[max_n];
 
 // zwraca true jezeli sprzeczny
-bool bfs_pewny(int v1) {
+bool bfs(int v1) {
     // w tym momencie znamy jakie pole zajmuje v1
     // mozliwe znamy rowniez odpowiedzi dla innych skladowych grafu
     // jezeli wypadnie, ze dwaj zawodnicy powinni byc na tym samym miejscu, mamy sprzecznosc
@@ -73,26 +73,6 @@ bool bfs_pewny(int v1) {
     }
 
     return false;
-}
-
-void bfs_niepewny(int v1) {
-    std::vector<int> q, nq;
-    q.push_back(v1);
-
-    while (q.size()) {
-        for (auto v : q) {
-            if (vis[v]) continue;
-            vis[v] = true;
-
-            for (auto u : adj[v]) {
-                if (vis[u]) continue;
-                nq.push_back(u);
-            }
-        }
-
-        q.swap(nq);
-        nq.clear();
-    }
 }
 
 int main() {
@@ -154,7 +134,7 @@ int main() {
     // badajac graf moze nam wyjsc sprzecznosc!
     for (auto pew : pewni) {
         if (vis[pew]) continue;
-        bool sprzeczny = bfs_pewny(pew);
+        bool sprzeczny = bfs(pew);
 
         if (sprzeczny) {
             std::cout << "NIE\n0";
@@ -181,7 +161,7 @@ int main() {
             return 0;
         }
 
-        bool sprzeczny = bfs_pewny(z);
+        bool sprzeczny = bfs(z);
         if (sprzeczny) {
             std::cout << "NIE\n0";
             return 0;
